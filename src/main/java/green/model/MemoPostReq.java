@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemopostReq {
+public class MemoPostReq {
     private String title;
     private String ctnts;
 }

@@ -1,8 +1,8 @@
 package green.memo_server;
 
+import green.model.MemoGetReq;
+import green.model.MemoPostReq;
 import green.model.MemoPutReq;
-import green.model.MemopostReq;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +19,33 @@ public class MemoController {
     // Create
     @PostMapping("")
 //  public String postMemo(@#ModelAttribute MemoPostReq req) { // FormData 넘어오는 걸로 판단함
-    public String postMemo(@RequestBody MemopostReq req) { // JSON으로 넘어옴
+    public String postMemo(@RequestBody MemoPostReq req) { // JSON으로 넘어옴
 //      System.out.println("postMemo: " + req);
         log.info("req={}", req);
-        return "저장 성공";
+        int result = memoService.save(req);
+        return result == 1 ? "저장 성공" : "저장 실패";
     }
-    // Read GET 방식 GETTER/SETTER
-    @GetMapping("")
-    public String getMemo(@RequestParam String search) {
-//  public String getMemo(@RequestParam(name="search_text", required = false) String searchText) {
-//  로 값을 반드시 넣고 싶을 때 우회 가능. 가져올 게 없으면 null 처리 가져올 게 있으면 문자열 넘어옴
-//  default = required key value 있어야 함
-        log.info("search={}", search);
-        return "memoList";
+    //Read
+    @GetMapping
+    public String getMemo(@ModelAttribute MemoGetReq req) {
+//    public String getMemo(@RequestParam(name = "search_text", required = false) String searchText
+//                        , @RequestParam(required = false) Integer page) {
+        //log.info("search={}, page={}", searchText, page);
+//        MemoGetReq req = MemoGetReq.builder()
+//                                   .page(page)
+//                                   .searchText(searchText)
+//                                   .build();
+        //memoService.getMomoList(searchText, page);
+        //memoService.getMomoList(req);
+        log.info("req={}", req);
+        return "메모 리스트";
     }
+
     @GetMapping("{memoId}")
-    public String getOneMemo(@PathVariable int memoid, @PathVariable String memoId) {
+    public String getOneMemo(@PathVariable int memoId) {
         log.info("memoId={}", memoId);
         return "Memo one";
     }
-//  주소값을 웬만하면 통일하려 하는게 Restful의 특징. 이 때 PathVariable 고민
 
     // Update, put, patch
     @PutMapping("")
