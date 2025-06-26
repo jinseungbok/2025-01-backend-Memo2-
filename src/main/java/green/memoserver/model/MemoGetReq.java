@@ -1,4 +1,4 @@
-package green.model;
+package green.memoserver.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.beans.ConstructorProperties;
 @ToString
 
 public class MemoGetReq {
-    private String seatchText;
+    private String searchText;
     private Integer page;
 
 //public MemoGetReq(@BindParam("search_text") String searchText, interger page) {
@@ -23,7 +23,7 @@ public class MemoGetReq {
 //  }
     @ConstructorProperties({"search_text", "page"})
     public MemoGetReq(String searchText, Integer page) {
-        this.seatchText = searchText;
+        this.searchText = searchText;
         this.page = page;
     }
 

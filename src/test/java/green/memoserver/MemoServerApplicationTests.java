@@ -1,4 +1,4 @@
-package green.memo_server;
+package green.memoserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

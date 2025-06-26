@@ -1,11 +1,11 @@
-package green.memo_server;
+package green.memoserver;
 
-import green.model.MemoGetReq;
-import green.model.MemoPostReq;
-import green.model.MemoPutReq;
+import green.memoserver.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -26,8 +26,12 @@ public class MemoController {
         return result == 1 ? "저장 성공" : "저장 실패";
     }
     //Read
-    @GetMapping
-    public String getMemo(@ModelAttribute MemoGetReq req) {
+    @GetMapping("list")
+    public List<MemoGetRes> getMemo(@ModelAttribute MemoGetReq req) {
+        log.info("req={}", req);
+        return memoService.findAll(req);
+    }
+
 //    public String getMemo(@RequestParam(name = "search_text", required = false) String searchText
 //                        , @RequestParam(required = false) Integer page) {
         //log.info("search={}, page={}", searchText, page);
@@ -37,14 +41,11 @@ public class MemoController {
 //                                   .build();
         //memoService.getMomoList(searchText, page);
         //memoService.getMomoList(req);
-        log.info("req={}", req);
-        return "메모 리스트";
-    }
 
     @GetMapping("{memoId}")
-    public String getOneMemo(@PathVariable int memoId) {
+    public MemoGetOneRes getMemo(@PathVariable int memoId) {
         log.info("memoId={}", memoId);
-        return "Memo one";
+        return memoService.findById(memoId);
     }
 
     // Update, put, patch
@@ -55,9 +56,9 @@ public class MemoController {
     }
 
     // Delete
-    @DeleteMapping("")
-    public String delMemo(@RequestParam(name="memo_id", required = true) int memoId) {
+    @DeleteMapping
+    public int deleteMemo(@RequestParam(name = "memo_id") int memoId) {
         log.info("memoId={}", memoId);
-        return "삭제 완료";
+        return memoService.deleteById(memoId);
     }
 }

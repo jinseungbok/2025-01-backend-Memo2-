@@ -1,4 +1,4 @@
-package green.model;
+package green.memoserver.model;
 
 import lombok.Getter;
 import lombok.Setter;
